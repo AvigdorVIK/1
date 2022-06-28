@@ -12,9 +12,19 @@ type User struct {
 	avg_grades, happiness float64
 }
 
-func home_page(page http.ResponseWriter, r *http.Request) {
+func (u User) getAllInto() string {
+	return fmt.Sprintf("User name is: %s. He is %d and has money "+
+		" equal: %d", u.name, u.age, u.money)
+}
+
+func (u *User) setNewName(newName string) {
+	u.name = newName
+}
+
+func home_page(w http.ResponseWriter, r *http.Request) {
 	bob := User{name: "Bob", age: 25, money: -50, avg_grades: 4.2, happiness: 0.8}
-	fmt.Fprintf(page, "User name is:"+bob.name)
+	bob.setNewName("Alex")
+	fmt.Fprintf(w, bob.getAllInto())
 
 }
 
